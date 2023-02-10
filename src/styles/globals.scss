@@ -7,12 +7,16 @@ h1,
 h2,
 h3,
 h4 {
-  font-weight: 600;
+  font-weight: 800;
   line-height: 1.2;
 }
 
 h1 {
-  font-size: 2.5rem;
+  font-size: 2rem;
+
+  @media (min-width: 768px) {
+    font-size: 2.5rem;
+  }
 }
 
 h2 {
@@ -25,4 +29,12 @@ h3 {
 
 h4 {
   font-size: 1.25rem;
+}
+
+a {
+  color: #3681f2;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }

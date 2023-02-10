@@ -20,18 +20,23 @@ const query = `
   order by count desc
 `
 
+export async function getStats(): Promise<Result[]> {
+  const sortxyz: SortResponse = await got
+    .post('https://api.sort.xyz/v0/sql', {
+      json: { query, api_key },
+    })
+    .json()
+
+  return sortxyz.query_response.results
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<StatsResponse>
 ) {
   try {
-    const sortxyz: SortResponse = await got
-      .post('https://api.sort.xyz/v0/sql', {
-        json: { query, api_key },
-      })
-      .json()
-
-    res.status(200).json({ result: sortxyz.query_response.results })
+    const stats = await getStats()
+    res.status(200).json({ result: stats })
   } catch (err) {
     console.error(err)
     res.status(500).json({ error: err })
