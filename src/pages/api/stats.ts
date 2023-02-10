@@ -13,7 +13,7 @@ const query = `
     SUBSTR(t.function.params[4].value, 1, 10) as "source",
     count(SUBSTR(t.function.params[4].value, 1, 10)) as "count"
   from
-    ethereum.transaction t
+    user14.transaction t
   where "to" = '0x283af0b28c62c092c9727f1ee09c02ca627eb7f5'
     and t.function.name like 'register%'
   group by SUBSTR(t.function.params[4].value, 1, 10)

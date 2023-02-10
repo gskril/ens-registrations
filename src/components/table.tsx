@@ -10,7 +10,7 @@ export const Table = styled.div`
 const rowStyles = css`
   display: grid;
   gap: 1.25rem;
-  font-weight: 600;
+  font-weight: 500;
   padding: 0.75rem 1rem;
   grid-template-columns: 3fr 2fr;
 `
@@ -18,7 +18,7 @@ const rowStyles = css`
 export const TableHeader = styled.div`
   ${rowStyles}
   color: #fff;
-  font-weight: 800;
+  font-weight: 700;
   font-size: 0.875rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
