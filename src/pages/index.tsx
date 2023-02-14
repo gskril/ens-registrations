@@ -40,15 +40,26 @@ export default function Home({ stats }: PageProps) {
                 ENSIP 14
               </a>{' '}
               provides a way to track the source of ENS registrations on-chain.
-              This dashboard uses{' '}
+            </p>
+
+            <p>
+              This dashboard includes transactions made on the official{' '}
+              <a
+                href="https://etherscan.io/address/0x283af0b28c62c092c9727f1ee09c02ca627eb7f5"
+                target="_blank"
+                rel="noreferrer"
+              >
+                .eth Registrar contract
+              </a>{' '}
+              after February 10th, 2023. Data provided by{' '}
               <a
                 href="https://sort.xyz/query/63e66af18758baae915f444e/"
                 target="_blank"
                 rel="noreferrer"
               >
                 sort.xyz
-              </a>{' '}
-              to query that data.
+              </a>
+              .
             </p>
           </div>
 
@@ -65,6 +76,11 @@ export default function Home({ stats }: PageProps) {
               </TableRow>
             ))}
           </Table>
+
+          <small style={{ display: 'block', opacity: 0.6, marginTop: '1rem' }}>
+            Note: registrations are only counted after a developer adopts this
+            standard.
+          </small>
         </Container>
       </main>
 

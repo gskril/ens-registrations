@@ -9,15 +9,24 @@ if (!api_key) {
 }
 
 const query = `
-  select
-    SUBSTR(t.function.params[4].value, 1, 10) as "source",
-    count(SUBSTR(t.function.params[4].value, 1, 10)) as "count"
-  from
-    user14.transaction t
-  where "to" = '0x283af0b28c62c092c9727f1ee09c02ca627eb7f5'
-    and t.function.name like 'register%'
-  group by SUBSTR(t.function.params[4].value, 1, 10)
-  order by count desc
+  SELECT
+  mapped_source AS "source",
+  COUNT(SUBSTR(mapped_source, 1, 8)) AS "count"
+  FROM (
+  SELECT
+    CASE SUBSTR(t.function.params[4].value, 1, 8)
+      WHEN '0x03acfa' THEN 'ensfairy.eth'
+      -- Add more mappings here
+      ELSE SUBSTR(t.function.params[4].value, 1, 8)
+    END AS mapped_source
+  FROM user14.transaction t
+  WHERE "to" = '0x283af0b28c62c092c9727f1ee09c02ca627eb7f5'
+    AND t.function.name LIKE 'register%'
+    AND status = 1
+  ) subquery_alias
+  GROUP BY mapped_source
+  HAVING COUNT(SUBSTR(mapped_source, 1, 8)) > 1
+  ORDER BY "count" DESC;
 `
 
 export async function getStats(): Promise<Result[]> {
