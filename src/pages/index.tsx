@@ -6,10 +6,11 @@ import type { Result } from '../types'
 import { getStats } from './api/stats'
 
 type PageProps = {
+  lastUpdated: string
   stats: Result[]
 }
 
-export default function Home({ stats }: PageProps) {
+export default function Home({ lastUpdated, stats }: PageProps) {
   return (
     <>
       <Head>
@@ -77,8 +78,12 @@ export default function Home({ stats }: PageProps) {
             ))}
           </Table>
 
-          <small style={{ display: 'block', opacity: 0.6, marginTop: '1rem' }}>
-            Note: registrations are only counted after a developer adopts this
+          <small style={{ margin: '1rem 0 0.125rem' }}>
+            Last updated: {lastUpdated}
+          </small>
+
+          <small>
+            Note: Registrations are only counted after a developer adopts this
             standard.
           </small>
         </Container>
@@ -104,8 +109,20 @@ export default function Home({ stats }: PageProps) {
 export async function getStaticProps() {
   const stats = await getStats()
 
+  // Return the date in format: "Feb 14, 2023, 12:00 AM EST"
+  const lastUpdated = new Date().toLocaleString('en-US', {
+    timeZone: 'America/New_York',
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    timeZoneName: 'short',
+  })
+
   return {
     props: {
+      lastUpdated,
       stats,
     },
     revalidate: 60 * 5,
