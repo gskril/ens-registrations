@@ -1,17 +1,25 @@
-## Opinionated Web3 Project Starter Template
+## ENS Registrations Dashboard
 
-This is a starter template for building web3 projects using my preferred stack:
+Simple dashboard to see the source of ENS registrations according to [ENSIP 14](https://github.com/ensdomains/docs/pull/127) (draft).
 
-- Next.js
-- Styled Components
-- Styled JSX (with Sass support)
-- Ethers
-- Wagmi
-- RainbowKit
-- Plausible Analytics
+On-chain analytics powered by [sort.xyz](https://sort.xyz/).
 
-It also includes hooks that I tend to use often and my eslint/prettier configuration to keep things consistent.
+## How to run
 
-For easy coloring with built-in light/dark mode via CSS custom properties, I've included [Radix's color system](https://www.radix-ui.com/colors). It's commented out by default to reduce bundle size (~10kb compressed), but you can uncomment it in [`src/styles/style.scss`](src/styles/style.scss) if you want to use it.
+1. Install dependencies
 
-Inspired by [@carlosdp/starter-web3](https://github.com/carlosdp/starter-web3)
+```bash
+yarn install
+```
+
+1. Create a `.env` file and enter your [Sort API key](https://sort.xyz/profile)
+
+```bash
+cp .env.example .env
+```
+
+2. Run the app
+
+```bash
+yarn dev
+```
