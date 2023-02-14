@@ -7,10 +7,14 @@ import { getStats } from './api/stats'
 
 type PageProps = {
   lastUpdated: string
-  stats: Result[]
+  apps: Result[],
+  campaigns: Result[],
 }
 
-export default function Home({ lastUpdated, stats }: PageProps) {
+export default function Home({ lastUpdated, apps, campaigns }: PageProps) {
+  const total = apps.reduce((acc, stat) => acc + stat.count, 0)
+  const totalCampaigns = campaigns.reduce((acc, stat) => acc + stat.count, 0)
+  
   return (
     <>
       <Head>
@@ -54,7 +58,7 @@ export default function Home({ lastUpdated, stats }: PageProps) {
               </a>{' '}
               after February 10th, 2023. Data provided by{' '}
               <a
-                href="https://sort.xyz/query/63e66af18758baae915f444e/"
+                href="https://sort.xyz/query/63eb88c4de4b6ffdda620ac5/results"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -62,18 +66,45 @@ export default function Home({ lastUpdated, stats }: PageProps) {
               </a>
               .
             </p>
+
           </div>
+          <h3> Frontends</h3>
+          <h4> Registrar, apps and frontends</h4>
+          <p> Any app or registrar that implements the standard will show up here</p>
 
           <Table>
             <TableHeader>
               <span>Source</span>
               <span>Count</span>
+              <span>%</span>
             </TableHeader>
 
-            {stats.map((stat) => (
+            {apps.map((stat) => (
               <TableRow key={stat.source}>
                 <span>{stat.source}</span>
                 <span>{stat.count}</span>
+                <span>{(stat.count / total * 100).toFixed(2)}%</span>
+              </TableRow>
+            ))}
+          </Table>
+          <h3> Campaigns </h3>
+          <h4> Social media, newsletters, influencers</h4>
+          <p> If an app has properly implemented the ENSIP14 standard then by sending them a link that ends in ?affiliate=123456 
+            then that code should be passed to the registrar and show up here. 
+          </p>
+
+          <Table>
+            <TableHeader>
+              <span>Source</span>
+              <span>Count</span>
+              <span>%</span>
+            </TableHeader>
+
+            {campaigns.map((camp) => (
+              <TableRow key={camp.source}>
+                <span>{camp.source}</span>
+                <span>{camp.count}</span>
+                <span>{(camp.count / total * 100).toFixed(2)}%</span>
               </TableRow>
             ))}
           </Table>
@@ -101,13 +132,25 @@ export default function Home({ lastUpdated, stats }: PageProps) {
           gap: 0.75rem;
           margin-bottom: 1.5rem;
         }
+
+        h3 {
+          padding-top: 1rem;
+          padding-bottom: 0.5rem;
+          font-weight: 400;
+          text-transform: uppercase;
+          color: rgb(167, 61, 61);
+                  }
+
+                  h4 { padding: 0.5rem 0;}
       `}</style>
     </>
   )
 }
 
 export async function getStaticProps() {
-  const stats = await getStats()
+  // const stats = await getStats(0)
+  // const campaigns = await getStats(6)
+  const [apps, campaigns] = await Promise.all([getStats(0), getStats(6)]);
 
   // Return the date in format: "Feb 14, 2023, 12:00 AM EST"
   const lastUpdated = new Date().toLocaleString('en-US', {
@@ -123,7 +166,8 @@ export async function getStaticProps() {
   return {
     props: {
       lastUpdated,
-      stats,
+      apps,
+      campaigns,
     },
     revalidate: 60 * 5,
   }
