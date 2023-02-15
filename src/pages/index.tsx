@@ -7,14 +7,14 @@ import { getStats } from './api/stats'
 
 type PageProps = {
   lastUpdated: string
-  apps: Result[],
-  campaigns: Result[],
+  apps: Result[]
+  campaigns: Result[]
 }
 
 export default function Home({ lastUpdated, apps, campaigns }: PageProps) {
   const total = apps.reduce((acc, stat) => acc + stat.count, 0)
   const totalCampaigns = campaigns.reduce((acc, stat) => acc + stat.count, 0)
-  
+
   return (
     <>
       <Head>
@@ -66,11 +66,13 @@ export default function Home({ lastUpdated, apps, campaigns }: PageProps) {
               </a>
               .
             </p>
-
           </div>
           <h3> Frontends</h3>
           <h4> Registrar, apps and frontends</h4>
-          <p> Any app or registrar that implements the standard will show up here</p>
+          <p>
+            {' '}
+            Any app or registrar that implements the standard will show up here
+          </p>
 
           <Table>
             <TableHeader>
@@ -83,14 +85,17 @@ export default function Home({ lastUpdated, apps, campaigns }: PageProps) {
               <TableRow key={stat.source}>
                 <span>{stat.source}</span>
                 <span>{stat.count}</span>
-                <span>{(stat.count / total * 100).toFixed(2)}%</span>
+                <span>{((stat.count / total) * 100).toFixed(2)}%</span>
               </TableRow>
             ))}
           </Table>
           <h3> Campaigns </h3>
           <h4> Social media, newsletters, influencers</h4>
-          <p> If an app has properly implemented the ENSIP14 standard then by sending them a link that ends in ?affiliate=123456 
-            then that code should be passed to the registrar and show up here. 
+          <p>
+            {' '}
+            If an app has properly implemented the ENSIP14 standard then by
+            sending them a link that ends in ?affiliate=123456 then that code
+            should be passed to the registrar and show up here.
           </p>
 
           <Table>
@@ -104,7 +109,7 @@ export default function Home({ lastUpdated, apps, campaigns }: PageProps) {
               <TableRow key={camp.source}>
                 <span>{camp.source}</span>
                 <span>{camp.count}</span>
-                <span>{(camp.count / total * 100).toFixed(2)}%</span>
+                <span>{((camp.count / total) * 100).toFixed(2)}%</span>
               </TableRow>
             ))}
           </Table>
@@ -139,18 +144,18 @@ export default function Home({ lastUpdated, apps, campaigns }: PageProps) {
           font-weight: 400;
           text-transform: uppercase;
           color: rgb(167, 61, 61);
-                  }
+        }
 
-                  h4 { padding: 0.5rem 0;}
+        h4 {
+          padding: 0.5rem 0;
+        }
       `}</style>
     </>
   )
 }
 
 export async function getStaticProps() {
-  // const stats = await getStats(0)
-  // const campaigns = await getStats(6)
-  const [apps, campaigns] = await Promise.all([getStats(0), getStats(6)]);
+  const [apps, campaigns] = await Promise.all([getStats(0), getStats(6)])
 
   // Return the date in format: "Feb 14, 2023, 12:00 AM EST"
   const lastUpdated = new Date().toLocaleString('en-US', {
@@ -165,9 +170,9 @@ export async function getStaticProps() {
 
   return {
     props: {
-      lastUpdated,
       apps,
       campaigns,
+      lastUpdated,
     },
     revalidate: 60 * 5,
   }
