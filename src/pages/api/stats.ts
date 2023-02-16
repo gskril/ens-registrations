@@ -15,7 +15,7 @@ export async function getStats(offset: number): Promise<Result[]> {
 -- Define a CTE called 'mapped_sources' that extracts the first 8 characters of the secret value and the function name from the 'user14.transaction' table
 WITH mapped_sources AS (
   SELECT 
-    SUBSTR(t.function.params[4].value, ${offset + 3}, 6) AS source_substr, -- Extract the first 8 characters of the secret value
+    SUBSTR(t.function.params[4].value, ${offset + 3}, 8) AS source_substr, -- Extract the first 8 characters of the secret value
     t.function.name -- Extract the function name
   FROM user14.transaction t
   WHERE "to" = '0x283af0b28c62c092c9727f1ee09c02ca627eb7f5' -- Filter transactions to the ENS Registrar Controller 
@@ -31,14 +31,15 @@ FROM (
     source_substr
   FROM mapped_sources
   GROUP BY source_substr
-  HAVING COUNT(*) = 1
+  HAVING COUNT(*) <= 1
 ) subquery
 -- Concatenate the results with the counts of non-unique 'source_substr' values, which are optionally mapped to new names
 UNION ALL
 SELECT 
   CASE source_substr
-    WHEN '03acfa' THEN 'ensfairy.eth' -- If the 'source_substr' is '0x03acfa', map it to 'ensfairy.eth'
-    -- Add more mappings here as needed
+  WHEN '00000000' THEN 'Null address' -- If the 'source_substr' is '00000', map it to 'Null'
+  WHEN '03acfad5' THEN 'ensfairy.eth' -- If the 'source_substr' is '03acfa', map it to 'ensfairy.eth'
+  -- Add more mappings here as needed
     ELSE source_substr -- If the 'source_substr' is not mapped, use the original value
   END AS source,
   COUNT(*) AS "count"

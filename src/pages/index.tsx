@@ -14,15 +14,19 @@ type PageProps = {
 export default function Home({ lastUpdated, apps, campaigns }: PageProps) {
   const total = apps.reduce((acc, stat) => acc + stat.count, 0)
   const totalCampaigns = campaigns.reduce((acc, stat) => acc + stat.count, 0)
-  
+
   return (
     <>
       <Head>
-        <title>ENS Registrations</title>
+        <title>ENSIP14: The Flock Watcher</title>
         <meta
           name="description"
           content="Track the source of ENS Registrations according to ENSIP 14"
         />
+
+        <link rel="icon" href="/favicon.png?v=3" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/favicon.png?v=3" />
+        <link rel="apple-touch-icon-precomposed" sizes="180x180" href="/favicon?v=3.png" />
 
         <meta property="og:image" content="" />
         <meta property="og:title" content="ENS Registrations" />
@@ -35,17 +39,15 @@ export default function Home({ lastUpdated, apps, campaigns }: PageProps) {
       <main>
         <Container>
           <div className="header">
-            <h1>ENS Registrations</h1>
-            <p>
-              <a
-                href="https://discuss.ens.domains/t/ensip-on-chain-source-parameter/16270"
-                target="_blank"
-                rel="noreferrer"
-              >
-                ENSIP 14
-              </a>{' '}
-              provides a way to track the source of ENS registrations on-chain.
-            </p>
+            <img src="/flock.png" alt="Watercolor of a flock of woodpeckers" width="100%" />
+            <h1>ENSIP14: The Flock Watcher </h1>
+            <p>ENS isn't just one team, but a whole <strong>flock</strong>! 🐣 There are lots of different apps that register ENS names, and organic communities that group together to register their own clubs of names. We want to make sure these communities keep thriving and that more apps are encouraged to use ENS, so the first step is to measure who's using it. 📊</p>
+
+            <p>We've developed ENSIP14 to make it easier to create an onchain record of which registration frontend was used for a name, and to enable easy referral links. 🔗 This means you can start an ENS campaign with just <strong>one click</strong>! 💻 So don't wait - join the flock! 🐣</p>
+            <p>It's a new, emerging standard and this website tracks its adoption. We created leaderboards to motivate more apps to appear here, and to incentivize ENS working groups to develop programs that reward creators and community builders.</p>
+
+            <p>To help the ENS ecosystem grow, make sure the developer of your preferred ENS registration app or ENS-enabled wallet is compliant with the <a href="https://discuss.ens.domains/t/ensip-on-chain-source-parameter/16270">standard</a>. If you're a developer, you can <a href="https://discuss.ens.domains/t/ensip-on-chain-source-parameter/16270">read the spec here</a>. The standard is a draft and welcomes feedback from developers!</p>
+
 
             <p>
               This dashboard includes transactions made on the official{' '}
@@ -89,8 +91,8 @@ export default function Home({ lastUpdated, apps, campaigns }: PageProps) {
           </Table>
           <h3> Campaigns </h3>
           <h4> Social media, newsletters, influencers</h4>
-          <p> If an app has properly implemented the ENSIP14 standard then by sending them a link that ends in ?affiliate=123456 
-            then that code should be passed to the registrar and show up here. 
+          <p> If an app has properly implemented the ENSIP14 standard then by sending them a link that ends in ?affiliate=123456
+            then that code should be passed to the registrar and show up here.
           </p>
 
           <Table>
@@ -109,6 +111,8 @@ export default function Home({ lastUpdated, apps, campaigns }: PageProps) {
             ))}
           </Table>
 
+
+
           <small style={{ margin: '1rem 0 0.125rem' }}>
             Last updated: {lastUpdated}
           </small>
@@ -117,13 +121,20 @@ export default function Home({ lastUpdated, apps, campaigns }: PageProps) {
             Note: Registrations are only counted after a developer adopts this
             standard.
           </small>
+
+          <img src="/favicon.png?v=3" alt="Watercolor of a flock of woodpeckers" class='icon' width="25%" style={{ margin: '2rem auto' }} />
+
         </Container>
       </main>
 
       <style jsx>{`
+
+    
         main {
           padding-top: 2rem;
           padding-bottom: 2rem;
+          background: linear-gradient(#FFF, #efeeee);
+        
         }
 
         .header {
@@ -141,7 +152,9 @@ export default function Home({ lastUpdated, apps, campaigns }: PageProps) {
           color: rgb(167, 61, 61);
                   }
 
+
                   h4 { padding: 0.5rem 0;}
+
       `}</style>
     </>
   )
@@ -149,7 +162,7 @@ export default function Home({ lastUpdated, apps, campaigns }: PageProps) {
 
 export async function getStaticProps() {
   // const stats = await getStats(0)
-  // const campaigns = await getStats(6)
+  // const campaigns = await getStats(8)
   const [apps, campaigns] = await Promise.all([getStats(0), getStats(6)]);
 
   // Return the date in format: "Feb 14, 2023, 12:00 AM EST"
