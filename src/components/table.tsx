@@ -15,7 +15,7 @@ const rowStyles = css`
   gap: 1.25rem;
   font-weight: 500;
   padding: 0.75rem 1rem;
-  grid-template-columns: 3fr 2fr 2fr;
+  grid-template-columns: 1fr  6fr  4fr 4fr;
 `
 
 export const TableHeader = styled.div`

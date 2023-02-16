@@ -41,12 +41,12 @@ export default function Home({ lastUpdated, apps, campaigns }: PageProps) {
           <div className="header">
             <img src="/flock.png" alt="Watercolor of a flock of woodpeckers" width="100%" />
             <h1>ENSIP14: The Flock Watcher </h1>
-            <p>ENS isn't just one team, but a whole <strong>flock</strong>! 🐣 There are lots of different apps that register ENS names, and organic communities that group together to register their own clubs of names. We want to make sure these communities keep thriving and that more apps are encouraged to use ENS, so the first step is to measure who's using it. 📊</p>
+            <p>ENS isn&apos;t just one team, but a whole <strong>flock</strong>! 🐣 There are lots of different apps that register ENS names, and organic communities that group together to register their own clubs of names. We want to make sure these communities keep thriving and that more apps are encouraged to use ENS, so the first step is to measure who&apos;s using it. 📊</p>
 
-            <p>We've developed ENSIP14 to make it easier to create an onchain record of which registration frontend was used for a name, and to enable easy referral links. 🔗 This means you can start an ENS campaign with just <strong>one click</strong>! 💻 So don't wait - join the flock! 🐣</p>
-            <p>It's a new, emerging standard and this website tracks its adoption. We created leaderboards to motivate more apps to appear here, and to incentivize ENS working groups to develop programs that reward creators and community builders.</p>
+            <p>We&apos;ve developed ENSIP14 to make it easier to create an onchain record of which registration frontend was used for a name, and to enable easy referral links. 🔗 This means you can start an ENS campaign with just <strong>one click</strong>! 💻 So don&apos;t wait - join the flock! 🐣</p>
+            <p>It&apos;s a new, emerging standard and this website tracks its adoption. We created leaderboards to motivate more apps to appear here, and to incentivize ENS working groups to develop programs that reward creators and community builders.</p>
 
-            <p>To help the ENS ecosystem grow, make sure the developer of your preferred ENS registration app or ENS-enabled wallet is compliant with the <a href="https://discuss.ens.domains/t/ensip-on-chain-source-parameter/16270">standard</a>. If you're a developer, you can <a href="https://discuss.ens.domains/t/ensip-on-chain-source-parameter/16270">read the spec here</a>. The standard is a draft and welcomes feedback from developers!</p>
+            <p>To help the ENS ecosystem grow, make sure the developer of your preferred ENS registration app or ENS-enabled wallet is compliant with the <a href="https://discuss.ens.domains/t/ensip-on-chain-source-parameter/16270">standard</a>. If you&apos;re a developer, you can <a href="https://discuss.ens.domains/t/ensip-on-chain-source-parameter/16270">read the spec here</a>. The standard is a draft and welcomes feedback from developers!</p>
 
 
             <p>
@@ -79,16 +79,31 @@ export default function Home({ lastUpdated, apps, campaigns }: PageProps) {
           <Table>
             <TableHeader>
               <span>Source</span>
+              <span></span>
               <span>Count</span>
               <span>%</span>
             </TableHeader>
 
             {apps.map((stat) => (
               <TableRow key={stat.source}>
-                <span>{stat.source}</span>
+                <span
+                  style={{
+                    content: "''",
+                    display: 'inline-block',
+                    background: `#${stat.source.substr(0, 6)}`,
+                    backgroundImage: `url('https://metadata.ens.domains/mainnet/avatar/${stat.source}')`,
+                    backgroundSize: 'contain',
+                    width: '2rem',
+                    height: '2rem',
+                    borderRadius: '25%',
+                    opacity: 0.75
+                  }}
+                />
+                <span>  {stat.source}  </span>
                 <span>{stat.count}</span>
                 <span>{((stat.count / total) * 100).toFixed(2)}%</span>
               </TableRow>
+
             ))}
           </Table>
           <h3> Campaigns </h3>
@@ -100,12 +115,26 @@ export default function Home({ lastUpdated, apps, campaigns }: PageProps) {
           <Table>
             <TableHeader>
               <span>Source</span>
+              <span></span>
               <span>Count</span>
               <span>%</span>
             </TableHeader>
 
             {campaigns.map((camp) => (
               <TableRow key={camp.source}>
+                <span
+                  style={{
+                    content: "''",
+                    display: 'inline-block',
+                    background: `#${camp.source.substr(0, 6)}`,
+                    backgroundImage: `url('https://metadata.ens.domains/mainnet/avatar/${camp.source}')`,
+                    backgroundSize: 'contain',
+                    width: '2rem',
+                    height: '2rem',
+                    borderRadius: '25%',
+                    opacity: 0.75
+                  }}
+                />
                 <span>{camp.source}</span>
                 <span>{camp.count}</span>
                 <span>{((camp.count / total) * 100).toFixed(2)}%</span>
@@ -124,7 +153,7 @@ export default function Home({ lastUpdated, apps, campaigns }: PageProps) {
             standard.
           </small>
 
-          <img src="/favicon.png?v=3" alt="Watercolor of a flock of woodpeckers" class='icon' width="25%" style={{ margin: '2rem auto' }} />
+          <img src="/favicon.png?v=3" alt="Watercolor of a flock of woodpeckers" width="25%" style={{ margin: '2rem auto' }} />
 
         </Container>
       </main>
@@ -157,6 +186,8 @@ export default function Home({ lastUpdated, apps, campaigns }: PageProps) {
         h4 {
           padding: 0.5rem 0;
         }
+
+
       `}</style>
     </>
   )
