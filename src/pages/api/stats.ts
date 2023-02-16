@@ -8,8 +8,6 @@ if (!api_key) {
   throw new Error('SORTXYZ_API_KEY not set')
 }
 
-
-
 export async function getStats(offset: number): Promise<Result[]> {
   const query = `
 -- Define a CTE called 'mapped_sources' that extracts the first 8 characters of the secret value and the function name from the 'user14.transaction' table
@@ -63,7 +61,7 @@ export default async function handler(
   res: NextApiResponse<StatsResponse>
 ) {
   try {
-    const stats = await getStats()
+    const stats = await getStats(0)
     res.status(200).json({ result: stats })
   } catch (err) {
     console.error(err)

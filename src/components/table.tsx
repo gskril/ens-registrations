@@ -22,7 +22,8 @@ export const TableHeader = styled.div`
   ${rowStyles}
   color: #b69191;
   font-weight: 700;
-  text-transform: uppercase;  font-weight: 700;
+  text-transform: uppercase;
+  font-weight: 700;
   font-size: 0.875rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
