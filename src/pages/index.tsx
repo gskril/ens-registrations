@@ -19,7 +19,7 @@ export default function Home({ lastUpdated, apps, campaigns }: PageProps) {
   return (
     <>
       <Head>
-        <title>ENSIP14: The Flock Watcher</title>
+        <title>Flock Watcher - ENSIP14</title>
         <meta
           name="description"
           content="Track the source of ENS Registrations according to ENSIP 14"
@@ -33,7 +33,7 @@ export default function Home({ lastUpdated, apps, campaigns }: PageProps) {
           href="/favicon.png"
         />
 
-        <meta property="og:image" content="" />
+        <meta property="og:image" content="flock.jpg" />
         <meta property="og:title" content="ENS Registrations" />
         <meta
           property="og:description"
@@ -50,7 +50,7 @@ export default function Home({ lastUpdated, apps, campaigns }: PageProps) {
               width={400}
               height={400}
               style={{
-                alignSelf: 'center',
+                alignSelf: 'center', boxShadow: '0px 3px 15px rgba(255, 255, 255, 0.75)', borderRadius: '5%'
               }}
             />
             <h1>ENSIP14: The Flock Watcher </h1>
@@ -197,10 +197,12 @@ export default function Home({ lastUpdated, apps, campaigns }: PageProps) {
 
           <Image
             src="/favicon.png"
-            alt="Watercolor of a flock of woodpeckers"
+            alt="Icon of a woodpecker"
             width={160}
             height={160}
-            style={{ margin: '2rem auto 0.5rem' }}
+            style={{
+              margin: '2rem auto 0.5rem'
+            }}
           />
         </Container>
       </main>
