@@ -13,7 +13,9 @@ export async function getStats(offset: number): Promise<Result[]> {
 -- Define a CTE called 'mapped_sources' that extracts the first 8 characters of the secret value and the function name from the 'user14.transaction' table
 WITH mapped_sources AS (
   SELECT 
-    SUBSTR(t.function.params[4].value, ${offset + 3}, 8) AS source_substr, -- Extract the first 8 characters of the secret value
+    SUBSTR(t.function.params[4].value, ${
+      offset + 3
+    }, 8) AS source_substr, -- Extract the first 8 characters of the secret value
     t.function.name -- Extract the function name
   FROM user14.transaction t
   WHERE "to" = '0x283af0b28c62c092c9727f1ee09c02ca627eb7f5' -- Filter transactions to the ENS Registrar Controller 

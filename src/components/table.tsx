@@ -6,8 +6,9 @@ export const Table = styled.div`
   margin: 1rem 0;
   border-radius: 0.5rem;
   border: 2px solid #efeeee;
+  background-color: #fff;
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1),
-  -5px -5px 10px rgba(255, 255, 255, 0.75); 
+    -5px -5px 10px rgba(255, 255, 255, 0.75);
 `
 
 const rowStyles = css`
@@ -15,7 +16,7 @@ const rowStyles = css`
   gap: 1.25rem;
   font-weight: 500;
   padding: 0.75rem 1rem;
-  grid-template-columns: 1fr  6fr  4fr 4fr;
+  grid-template-columns: 1fr 6fr 4fr 4fr;
 `
 
 export const TableHeader = styled.div`
@@ -28,7 +29,7 @@ export const TableHeader = styled.div`
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   border-bottom: 1px solid rgb(238, 227, 227);
-  `
+`
 
 export const TableRow = styled.div`
   ${rowStyles}
@@ -42,8 +43,8 @@ export const TableRow = styled.div`
 
   &:not(:last-child) {
     border-bottom: 1px solid rgb(238, 227, 227);
-  } 
-  
+  }
+
   &:not(:first-child) {
     border-top: 1px solid #fff;
   }
