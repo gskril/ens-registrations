@@ -45,7 +45,7 @@ export default function Home({ lastUpdated, apps, campaigns }: PageProps) {
         <Container>
           <div className="header">
             <Image
-              src="/flock.png"
+              src="/flock.jpg"
               alt="Watercolor of a flock of woodpeckers"
               width={400}
               height={400}
