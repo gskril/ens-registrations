@@ -33,7 +33,10 @@ export default function Home({ lastUpdated, apps, campaigns }: PageProps) {
           href="/favicon.png"
         />
 
-        <meta property="og:image" content="flock.jpg" />
+        <meta
+          property="og:image"
+          content="https://ens-registrations.vercel.app/sharing.jpg"
+        />
         <meta property="og:title" content="ENS Registrations" />
         <meta
           property="og:description"
@@ -50,7 +53,9 @@ export default function Home({ lastUpdated, apps, campaigns }: PageProps) {
               width={400}
               height={400}
               style={{
-                alignSelf: 'center', boxShadow: '0px 3px 15px rgba(255, 255, 255, 0.75)', borderRadius: '5%'
+                alignSelf: 'center',
+                boxShadow: '0px 3px 15px rgba(255, 255, 255, 0.75)',
+                borderRadius: '5%',
               }}
             />
             <h1>ENSIP14: The Flock Watcher </h1>
@@ -201,7 +206,7 @@ export default function Home({ lastUpdated, apps, campaigns }: PageProps) {
             width={160}
             height={160}
             style={{
-              margin: '2rem auto 0.5rem'
+              margin: '2rem auto 0.5rem',
             }}
           />
         </Container>
