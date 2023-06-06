@@ -58,8 +58,6 @@ WITH mapped_sources as (
     })
     .json()
 
-    console.log("response: " + JSON.stringify(sortxyz, null, 2))
-
   return sortxyz.data.records
 }
 
