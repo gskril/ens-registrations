@@ -10,52 +10,55 @@ if (!api_key) {
 
 export async function getStats(offset: number): Promise<Result[]> {
   const query = `
--- Define a CTE called 'mapped_sources' that extracts the first 8 characters of the secret value and the function name from the 'user14.transaction' table
-WITH mapped_sources AS (
-  SELECT 
-    SUBSTR(t.function.params[4].value, ${
-      offset + 3
-    }, 8) AS source_substr, -- Extract the first 8 characters of the secret value
-    t.function.name -- Extract the function name
-  FROM user14.transaction t
-  WHERE "to" = '0x283af0b28c62c092c9727f1ee09c02ca627eb7f5' -- Filter transactions to the ENS Registrar Controller 
-    AND t.function.name LIKE 'register%' -- Filter transactions to only those that start with 'register'
-    AND status = 1 -- Filter transactions to only those with a successful status
-)
--- Calculate the counts of unique 'source_substr' values that appear only once in the 'mapped_sources' table
-SELECT 
-  'No Source Given' AS source,
-  COUNT(*) AS count
-FROM (
-  SELECT 
-    source_substr
-  FROM mapped_sources
-  GROUP BY source_substr
-  HAVING COUNT(*) <= 1
-) subquery
--- Concatenate the results with the counts of non-unique 'source_substr' values, which are optionally mapped to new names
-UNION ALL
-SELECT 
-  CASE source_substr
-  WHEN '00000000' THEN 'Null address' -- If the 'source_substr' is '00000', map it to 'Null'
-  WHEN '03acfad5' THEN 'ensfairy.eth' -- If the 'source_substr' is '03acfa', map it to 'ensfairy.eth'
-  -- Add more mappings here as needed
-    ELSE source_substr -- If the 'source_substr' is not mapped, use the original value
-  END AS source,
-  COUNT(*) AS "count"
-FROM mapped_sources
-GROUP BY source
-HAVING COUNT(*) > 1
-ORDER BY "count" DESC
+WITH mapped_sources as (
+    SELECT t.transaction_hash
+    ,p.bin_val::varchar as secret
+    ,SUBSTR(p.bin_val::varchar,
+      ${ offset + 3 },
+        8) as source_substr
+    FROM ethereum.transaction t,
+      --ethereum.block b,        
+      ethereum.transaction_param p
+    WHERE p.transaction_id = t.id
+      AND t.to_address = '0x283af0b28c62c092c9727f1ee09c02ca627eb7f5'
+      --AND b.id = t.block_id 
+      AND t.function like 'register%'
+      AND p.path = 'secret'
+  )
+  SELECT 'No Source Given' as source, count(*) as "count"
+  FROM
+    (SELECT source_substr
+      FROM mapped_sources
+      GROUP BY source_substr
+      HAVING COUNT(*) <= 1) subquery 
+  UNION ALL
+  SELECT CASE source_substr
+    WHEN '03acfad5' THEN 'ensfairy.eth'
+    WHEN '00000000' THEN 'No Secret used'
+    WHEN '02224567' THEN 'gpt-emoji.eth'
+    WHEN '89abcdef' THEN 'gpt-emoji.eth'
+    ELSE source_substr
+      END as source, count(*) as "count" 
+  FROM mapped_sources 
+  GROUP BY source 
+  HAVING COUNT(*) > 1 
+  ORDER BY "count" DESC
 `
 
   const sortxyz: SortResponse = await got
-    .post('https://api.sort.xyz/v0/sql', {
-      json: { query, api_key },
+    .post('https://api.sort.xyz/v1/queries/run', {
+      headers: {
+        'x-api-key': api_key as string,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      json: { 
+        query : query
+      },
     })
     .json()
 
-  return sortxyz.query_response.results
+  return sortxyz.data.records
 }
 
 export default async function handler(
